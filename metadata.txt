@@ -1,0 +1,33 @@
+[general]
+name=AutoTrace
+qgisMinimumVersion=2.0
+description=An editing tool for QGIS that allows users to 'trace' new 
+    feature geometry based on existing features. Based on traceDigitize 
+    by Cédric Möri.
+category=Vector
+version=version 1.0.3
+author=Peter Wells for Lutra Consulting
+email=peter.wells@lutraconsulting.co.uk
+; end of mandatory metadata
+; start of optional metadata
+changelog=1.0.3 - Bug fixes:
+ - Fixed crash seen when tracing features not yet saved to layer.
+ - Updated documentation.
+ <p>1.0.2 - Initial Release
+; tags are in comma separated value format, spaces are allowed
+tags=editing,digitizing,digitising,tracing,trace,auto trace,autotrace
+
+; these metadata can be empty
+; in a future version of the web application it will
+; be probably possible to create a project on redmine
+; if they are not filled
+homepage=http://www.lutraconsulting.co.uk/resources/autotrace
+; tracker=http://bugs.itopen.it
+repository=https://github.com/lutraconsulting/qgis-autotrace-plugin
+icon=iconAutoTrace.png
+
+; experimental flag
+experimental=True
+
+; deprecated flag (applies to the whole plugin and not only to the uploaded version)
+deprecated=False
