@@ -172,14 +172,12 @@ class VertexTracerTool(QgsMapTool):
 
             f = QgsFeature()
             self.snappedLayer.getFeatures(QgsFeatureRequest(self.snappedGeometry)).nextFeature(f)
-            
+
             for newVert in newVerts:
                 if self.snappedToPolygon:
                     v = f.geometry().vertexAt(newVert)
                 else:
                     v = f.geometry().vertexAt(newVert)
-                if self.snappedLayer != None and self.snappedLayer.crs() != self.canvas.currentLayer().crs():
-                    v = self.reprojectPoint(v)
                 v = self.canvas.mapRenderer().layerToMapCoordinates(self.snappedLayer, v)
                 self.rb.addPoint(v,False)
                 self.propVertCnt += 1
@@ -262,17 +260,6 @@ class VertexTracerTool(QgsMapTool):
             newverts = range(firstVertexNr-1,secondVertexNr,-1)
             return [x+self.snappedRingVertexOffset for x in newverts]
     
-    
-    def reprojectPoint(self, srcPt):
-        """ In the event we are tracing from a layer with different 
-        projection we will need to reproject traced vertices to the 
-        projection of the layer we are editing """
-        
-        src = self.snappedLayer.crs()
-        dst = self.canvas.currentLayer().crs()
-        trans = QgsCoordinateTransform(src, dst)
-        return trans.transform(srcPt)
-        
     
     def acceptProposedRBUpdate(self):
         self.propVertCnt = 0
