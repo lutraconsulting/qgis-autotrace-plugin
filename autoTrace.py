@@ -132,6 +132,9 @@ class AutoTrace:
  
     def createFeature(self, geom):
 
+        if not geom:
+          return False  # invalid geometry (e.g. just one point for a polyline)
+
         layer = self.canvas.currentLayer() 
         provider = layer.dataProvider()
         fields = provider.fields()

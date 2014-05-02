@@ -88,7 +88,10 @@ class VertexTracerTool(QgsMapTool):
         self.snappedRingNr = None
         self.snappedRingVertexOffset = None
         self.snappedToPolygon = False
-        
+
+        self.rb = QgsRubberBand(self.canvas, QGis.Line)
+        self.rb.setColor(QColor(255, 0, 0))
+
         self.autoCursor = QCursor(QPixmap(["16 16 3 1",
                                           "      c None",
                                           ".     c #FF00FF",
@@ -330,16 +333,15 @@ class VertexTracerTool(QgsMapTool):
 
     def canvasPressEvent(self,event):
         #on left click, we add a point
-        if event.button()  ==  1:
+        if event.button() == Qt.LeftButton:
             layer = self.canvas.currentLayer()
+            if not layer:
+              return
+
             #if it the start of a new trace, set the rubberband up
             if self.started == False:
-                if layer.geometryType() == 1:
-                    self.isPolygon = False
-                if layer.geometryType() == 2:
-                    self.isPolygon = True
-                self.rb = QgsRubberBand (self.canvas, layer.geometryType()) 
-                self.rb. setColor(QColor(255, 0, 0)) 
+                self.rb.reset(layer.geometryType())
+                self.lastPoint = None
             
             self.started = True
             self.acceptProposedRBUpdate()
@@ -361,7 +363,6 @@ class VertexTracerTool(QgsMapTool):
                     point =  QgsMapToPixel.toMapCoordinates(self.canvas.getCoordinateTransform (), x, y)
                     self.updateDetailsOfLastSnap()
                   
-                self.rb.movePoint(point)
                 self.appendPoint(QgsPoint(point))
             
     
@@ -505,22 +506,8 @@ class VertexTracerTool(QgsMapTool):
         if self.mShift:
             # User can only finish digitising when they are not holding down shift
             return
-        if event.button() == 2:
-            layer = self.canvas.currentLayer()
-            x = event.pos().x()
-            y = event.pos().y()
-            if layer <> None and self.started == True: 
-                selPoint = QPoint(x,y)
-                (retval,result) = self.snapper.snapToBackgroundLayers(selPoint)
-                
-                if result  <> []:
-                    point = result[0].snappedVertex
-                else:
-                    point =  QgsMapToPixel.toMapCoordinates(self.canvas.	getCoordinateTransform (), x, y)
-                
-                #add this last point
-                self.appendPoint(QgsPoint(point))
-                
+        if event.button() == Qt.RightButton:
+            if self.canvas.currentLayer() and self.started == True:
                 self.sendGeometry()
             #remember that this trace is finished, the next left click starts a new one
             self.started = False
@@ -531,12 +518,10 @@ class VertexTracerTool(QgsMapTool):
         if (self.lastPoint <> point) :
             self.rb.addPoint(point)
             self.lastPoint = point
-        else:
-            pass
       
     def sendGeometry(self):
         layer = self.canvas.currentLayer() 
-        
+
         coords = []
         #backward compatiblity for a bug in qgsRubberband, that was fixed in 1.7
         if QGis.QGIS_VERSION_INT >= 10700:
@@ -544,7 +529,7 @@ class VertexTracerTool(QgsMapTool):
             [ coords.append(self.rb.getPoint(0, i)) for i in range(self.rb.numberOfVertices()-1) ] # PW Fix for duplicate final vertice when adding lines
         else:
             [coords.append(self.rb.getPoint(0,i)) for i in range(1,self.rb.numberOfVertices())]
-        
+
         ## On the Fly reprojection.
         layerEPSG = layer.crs().authid()
         projectEPSG = self.canvas.mapRenderer().destinationCrs().authid()
@@ -565,7 +550,7 @@ class VertexTracerTool(QgsMapTool):
                     lastPt = pt
            
         ## Add geometry to feature.
-        if self.isPolygon == True:
+        if layer.geometryType() == QGis.Polygon:
             g = QgsGeometry().fromPolygon([coords])
         else:
             g = QgsGeometry().fromPolyline(coords)
@@ -573,7 +558,7 @@ class VertexTracerTool(QgsMapTool):
         self.emit(SIGNAL("traceFound(PyQt_PyObject)"),g) 
         
         #self.emit(SIGNAL("traceFound(PyQt_PyObject)"),self.rb.asGeometry()) 
-        self.rb.reset(self.isPolygon)
+        self.rb.reset(layer.geometryType())
 
     def activate(self):
         self.canvas.setCursor(self.autoCursor)
