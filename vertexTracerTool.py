@@ -176,6 +176,7 @@ class VertexTracerTool(QgsMapTool):
                     v = f.geometry().vertexAt(newVert)
                 if self.snappedLayer != None and self.snappedLayer.crs() != self.canvas.currentLayer().crs():
                     v = self.reprojectPoint(v)
+                v = self.canvas.mapRenderer().layerToMapCoordinates(self.snappedLayer, v)
                 self.rb.addPoint(v,False)
                 self.propVertCnt += 1
                 self.pointsProposed = True
