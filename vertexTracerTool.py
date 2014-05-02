@@ -169,10 +169,11 @@ class VertexTracerTool(QgsMapTool):
             
             # Now determine the points that we need to add
             newVerts = self.getAdditionalVerts( snapResults[0].snappedVertexNr )
+
+            f = QgsFeature()
+            self.snappedLayer.getFeatures(QgsFeatureRequest(self.snappedGeometry)).nextFeature(f)
             
             for newVert in newVerts:
-                f = QgsFeature()
-                self.snappedLayer.getFeatures(QgsFeatureRequest(self.snappedGeometry)).nextFeature(f)
                 if self.snappedToPolygon:
                     v = f.geometry().vertexAt(newVert)
                 else:
