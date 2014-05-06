@@ -27,22 +27,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-def name():
-    return "AutoTrace"
-def description():
-    return "An editing tool for QGIS that allows users to 'trace' new feature geometry based on existing features. Based on traceDigitize by Cédric Möri."
-def version():
-    return "Version 1.0.3"
 def classFactory(iface):
     from autoTrace import AutoTrace
     return AutoTrace(iface)
-def qgisMinimumVersion():
-    return "2.0"
-def author():
-    return "Peter Wells for Lutra Consulting"
-def email():
-    return "peter.wells@lutraconsulting.co.uk"
-def homepage():
-    return "http://www.lutraconsulting.co.uk/resources/autotrace"
-def icon():
-    return "iconAutoTrace.png"
