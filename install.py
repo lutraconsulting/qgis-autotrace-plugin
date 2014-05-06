@@ -48,14 +48,14 @@ install_files.remove("install.py")  # exclude this file!
 
 if pkg:
   import zipfile
-  pkgname = "autotrace.zip"
+  pkgname = "autoTrace.zip"
   with zipfile.ZipFile(pkgname, "w", zipfile.ZIP_DEFLATED) as z:
     for filename in install_files:
-      z.write(filename, "autotrace/"+filename)
+      z.write(filename, "autoTrace/"+filename)
   print "-- package written: " + pkgname
 
 else:
-  plugin_dir = os.path.expanduser(os.path.join("~", ".qgis2", "python", "plugins", "autotrace"))
+  plugin_dir = os.path.expanduser(os.path.join("~", ".qgis2", "python", "plugins", "autoTrace"))
   if not os.path.exists(plugin_dir):
     os.makedirs(plugin_dir)
     
