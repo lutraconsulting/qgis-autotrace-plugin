@@ -90,7 +90,6 @@ class VertexTracerTool(QgsMapTool):
         self.snappedToPolygon = False
 
         self.rb = QgsRubberBand(self.canvas, QGis.Line)
-        self.rb.setColor(QColor(255, 0, 0))
 
         self.autoCursor = QCursor(QPixmap(["16 16 3 1",
                                           "      c None",
@@ -113,6 +112,18 @@ class VertexTracerTool(QgsMapTool):
                                           "      ++.++     ",
                                           "       +.+      "]))
                                     
+    def setupRubberBand(self):
+
+        s = QSettings()
+        rb_w = s.value("/qgis/digitizing/line_width", 1, type=int)
+        rb_r = s.value("/qgis/digitizing/line_color_red", 255, type=int)
+        rb_g = s.value("/qgis/digitizing/line_color_green", 0, type=int)
+        rb_b = s.value("/qgis/digitizing/line_color_blue", 0, type=int)
+        rb_a = s.value("/qgis/digitizing/line_color_alpha", 200, type=int)
+
+        self.rb.setColor(QColor(rb_r, rb_g, rb_b, rb_a))
+        self.rb.setWidth(rb_w)
+
     def proposeRBUpdate(self, event=None):
         """
           Pop the last vert off the rb (the current mouse position)
@@ -329,6 +340,7 @@ class VertexTracerTool(QgsMapTool):
             #if it the start of a new trace, set the rubberband up
             if self.started == False:
                 self.rb.reset(layer.geometryType())
+                self.setupRubberBand()
                 self.lastPoint = None
             
             self.started = True
