@@ -4,12 +4,15 @@ qgisMinimumVersion=2.0
 description=An editing tool for QGIS that allows users to 'trace' new 
     feature geometry based on existing features
 category=Vector
-version=version 1.0.4
+version=version 1.0.5
 author=Peter Wells for Lutra Consulting
 email=peter.wells@lutraconsulting.co.uk
 ; end of mandatory metadata
 ; start of optional metadata
-changelog=1.0.4 - Bug fixes:
+changelog=1.0.5 - Bug fixes:
+ - Show feature form when finished tracing a feature (#2)
+ - Fix rubber band color/transparency (#9, #14)
+ <p>1.0.4 - Bug fixes:
  - Fixed problems with on-the-fly reprojection (#1)
  - Mimic "Add feature" behavior: discard last point on right click (#3)
  <p>1.0.3 - Bug fixes:
