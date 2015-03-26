@@ -161,9 +161,16 @@ class AutoTrace:
                 f.setGeometry(geom)
             else:
                 return False
-      
+
         layer.beginEditCommand("Feature added")
+
         layer.addFeature(f)
+
+        # let the user set some attributes
+        if not self.iface.openFeatureForm(layer, f):
+            layer.destroyEditCommand()
+            return False
+
         layer.endEditCommand()
         
         self.canvas.refresh()
