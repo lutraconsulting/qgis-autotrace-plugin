@@ -164,7 +164,10 @@ class AutoTrace:
 
         layer.beginEditCommand("Feature added")
 
-        layer.addFeature(f)
+        # since 2.4 the openFeatureForm does not work the same...
+        # for <= 2.2 first we need to add the feature, for >= 2.4 it is added by feature form
+        if QGis.QGIS_VERSION_INT < 20400:
+            layer.addFeature(f)
 
         # let the user set some attributes
         if not self.iface.openFeatureForm(layer, f):
