@@ -5,7 +5,7 @@ AutoTrace (QGIS plugin)
 
 An editing tool for QGIS that allows users to 'trace' new feature geometry based on existing features.
 
-### Using Crayfish
+### Using AutoTrace
 
 To learn how to use this plugin, see:
 http://www.lutraconsulting.co.uk/resources/autotrace
