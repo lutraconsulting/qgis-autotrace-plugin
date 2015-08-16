@@ -3,6 +3,7 @@ name=AutoTrace
 qgisMinimumVersion=2.0
 description=An editing tool for QGIS that allows users to 'trace' new 
     feature geometry based on existing features
+about=To learn how to use this plugin, see: http://www.lutraconsulting.co.uk/resources/autotrace
 category=Vector
 version=version 1.0.7
 author=Peter Wells for Lutra Consulting
