@@ -162,12 +162,18 @@ class AutoTrace:
             else:
                 return False
 
-        layer.beginEditCommand("Feature added")
+        # this is the preferred way of adding features in QGIS >= 2.4
+        # it respects default values, suppression of attribute form, reuse of recent values etc.
+        if QGis.QGIS_VERSION_INT >= 20400:
+            if self.iface.vectorLayerTools().addFeature(layer, {}, geom):
+                self.canvas.refresh()
+                return True
+            else:
+                return False
 
-        # since 2.4 the openFeatureForm does not work the same...
-        # for <= 2.2 first we need to add the feature, for >= 2.4 it is added by feature form
-        if QGis.QGIS_VERSION_INT < 20400:
-            layer.addFeature(f)
+        # compatibility code for older versions: QGIS < 2.4
+        layer.beginEditCommand("Feature added")
+        layer.addFeature(f)
 
         # let the user set some attributes
         if not self.iface.openFeatureForm(layer, f):
