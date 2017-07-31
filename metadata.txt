@@ -3,7 +3,7 @@ name=AutoTrace
 qgisMinimumVersion=2.0
 description=An editing tool for QGIS that allows users to 'trace' new 
     feature geometry based on existing features
-about=To learn how to use this plugin, see: http://www.lutraconsulting.co.uk/resources/autotrace
+about=To learn how to use this plugin, see: http://www.lutraconsulting.co.uk/products/autotrace/AutotracePlugin
 category=Vector
 version=version 1.0.7
 author=Peter Wells for Lutra Consulting
@@ -31,7 +31,7 @@ tags=editing,digitizing,digitising,tracing,trace,auto trace,autotrace
 ; in a future version of the web application it will
 ; be probably possible to create a project on redmine
 ; if they are not filled
-homepage=http://www.lutraconsulting.co.uk/resources/autotrace
+homepage=http://www.lutraconsulting.co.uk/products/autotrace/AutotracePlugin
 tracker=https://github.com/lutraconsulting/qgis-autotrace-plugin/issues
 repository=https://github.com/lutraconsulting/qgis-autotrace-plugin
 icon=iconAutoTrace.png
